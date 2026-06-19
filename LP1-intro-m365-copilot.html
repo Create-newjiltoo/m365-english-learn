@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>LP1 · Introduction to Microsoft 365 Copilot</title>
+<style>
+:root{--bl:#0078d4;--dk:#0f3460;--lt:#e8f4fd;--ok:#107c10;--gy:#605e5c;--bg:#faf9f8;--wh:#fff;--bd:#edebe9;--tx:#201f1e;--rr:10px}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:var(--bg);color:var(--tx);font-size:15px;line-height:1.7}
+/* header */
+.hd{background:var(--dk);color:#fff;padding:0 12px;height:50px;display:flex;align-items:center;gap:8px;position:sticky;top:0;z-index:300;box-shadow:0 2px 8px rgba(0,0,0,.4)}
+.logo{display:flex;align-items:center;gap:6px;font-weight:700;font-size:13px;white-space:nowrap;flex-shrink:0}
+.logo svg{width:20px;height:20px}
+.hnav{display:flex;gap:2px;overflow-x:auto;flex:1}
+.hnav a{color:rgba(255,255,255,.8);text-decoration:none;padding:4px 8px;border-radius:4px;font-size:12px;white-space:nowrap;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.hnav a.on{background:rgba(255,255,255,.2);color:#fff}
+.hbtn{background:var(--bl);color:#fff;border:none;padding:6px 10px;border-radius:6px;font-size:12px;cursor:pointer;display:flex;align-items:center;gap:3px;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+#vbadge{background:#ff6b35;color:#fff;border-radius:50%;width:15px;height:15px;font-size:10px;display:none;align-items:center;justify-content:center;font-weight:700;margin-left:2px}
+/* layout */
+.wrap{display:grid;grid-template-columns:180px 1fr}
+/* sidebar */
+.sb{background:#fff;border-right:1px solid var(--bd);padding:12px 0;position:sticky;top:50px;height:calc(100vh - 50px);overflow-y:auto}
+.sb-t{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--gy);padding:0 12px 5px}
+.sb a{display:flex;align-items:center;gap:6px;padding:6px 12px;text-decoration:none;color:var(--tx);font-size:12px;border-left:3px solid transparent;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.sb a.on{background:var(--lt);color:var(--bl);border-left-color:var(--bl);font-weight:600}
+.dot{width:17px;height:17px;border-radius:50%;background:#c8c6c4;flex-shrink:0;font-size:9px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700}
+.dot.on{background:var(--bl)}.dot.dn{background:var(--ok)}
+/* main */
+.main{padding:18px 16px;max-width:720px}
+.bc{font-size:11px;color:var(--gy);margin-bottom:10px}
+.bc a{color:var(--bl);cursor:pointer}
+/* hero */
+.hero{display:flex;gap:11px;margin-bottom:16px;padding-bottom:16px;border-bottom:1px solid var(--bd)}
+.hico{width:46px;height:46px;border-radius:11px;background:linear-gradient(135deg,var(--bl),#40a9ff);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.htag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--bl);margin-bottom:3px}
+.hero h1{font-size:19px;font-weight:700;color:var(--dk);line-height:1.3}
+.hm{font-size:11px;color:var(--gy);margin-top:4px;display:flex;gap:10px;flex-wrap:wrap}
+/* toolbar */
+.tb{background:#f0f7ff;border:1px solid #cce5ff;border-radius:var(--rr);padding:10px 12px;margin-bottom:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.th{font-size:12px;color:var(--gy);flex:1;min-width:100px}
+.th b{color:var(--bl)}
+.btn{background:var(--bl);color:#fff;border:none;padding:7px 12px;border-radius:6px;font-size:12px;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent;display:inline-block}
+.obtn{background:#fff;color:var(--bl);border:1.5px solid var(--bl);padding:6px 10px;border-radius:6px;font-size:12px;cursor:pointer;white-space:nowrap;-webkit-tap-highlight-color:transparent}
+/* section */
+.sec{margin-bottom:22px}
+.sh{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;gap:6px}
+.sh h2{font-size:16px;font-weight:700;color:var(--dk)}
+.sh h3{font-size:14px;font-weight:600;color:var(--dk)}
+.stb{background:transparent;border:1px solid var(--bl);color:var(--bl);padding:3px 8px;border-radius:4px;font-size:11px;cursor:pointer;white-space:nowrap;flex-shrink:0;-webkit-tap-highlight-color:transparent}
+/* content */
+.ct p{margin-bottom:10px;font-size:14.5px;line-height:1.75}
+.ct ul,.ct ol{margin:4px 0 10px 18px}
+.ct li{margin-bottom:5px;font-size:14px;line-height:1.6}
+/* 단어 클릭 스타일 */
+.w{color:var(--bl);border-bottom:1px solid var(--bl);cursor:pointer;-webkit-tap-highlight-color:rgba(0,120,212,.2);display:inline}
+/* info box */
+.ib{background:#f0f7ff;border-left:4px solid var(--bl);border-radius:0 var(--rr) var(--rr) 0;padding:10px 12px;margin:10px 0;font-size:14px}
+.ibt{font-weight:700;color:var(--bl);margin-bottom:3px;font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+/* 번역 박스 */
+.tr{background:#fffbe6;border:1px solid #ffe082;border-radius:var(--rr);padding:10px 12px;margin-top:8px;font-size:14px;line-height:1.7;color:#3d2b00;display:none}
+.tr.on{display:block}
+.tr p{margin-bottom:7px}.tr ul{margin:3px 0 7px 16px}.tr li{margin-bottom:3px}
+/* steps */
+.steps{margin:10px 0}
+.step{display:flex;gap:9px;margin-bottom:11px}
+.sn{width:25px;height:25px;border-radius:50%;background:var(--bl);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px}
+.sb2{flex:1;font-size:14px;line-height:1.6}
+/* principle grid */
+.pg{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin:10px 0}
+.pc{background:#fff;border:1px solid var(--bd);border-radius:var(--rr);padding:10px;text-align:center}
+.pi{font-size:20px;margin-bottom:4px}.pt{font-size:11px;font-weight:700;color:var(--dk);margin-bottom:2px}.pd{font-size:10px;color:var(--gy);line-height:1.4}
+/* req grid */
+.rg{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin:10px 0}
+.rc{background:#fff;border:1px solid var(--bd);border-radius:var(--rr);padding:10px}
+.rt{font-weight:700;color:var(--bl);margin-bottom:3px;font-size:12px}
+.rc p{font-size:11px;color:var(--gy);line-height:1.5}
+/* unit divider */
+.ud{border-top:2px solid var(--lt);margin:28px 0 20px;padding-top:16px}
+/* CTA */
+.cta{background:linear-gradient(135deg,var(--dk),var(--bl));color:#fff;border-radius:11px;padding:14px 16px;margin-top:22px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.cta h3{font-size:14px;margin-bottom:2px}.cta p{font-size:11px;opacity:.85}
+.cta2{background:#fff;color:var(--dk);border:none;padding:8px 14px;border-radius:7px;font-size:12px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent}
+/* nav */
+.pnav{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px;margin-top:20px}
+/* popup */
+#pop{display:none;position:fixed;z-index:9999;background:#fff;border:2px solid var(--bl);border-radius:12px;padding:12px 14px;box-shadow:0 6px 24px rgba(0,120,212,.25);min-width:160px;max-width:240px}
+#pop-w{font-size:17px;font-weight:700;color:var(--dk);margin-bottom:3px}
+#pop-m{font-size:14px;margin-bottom:9px}
+#pop-a{display:flex;gap:6px}
+#pop-a button{flex:1;padding:6px 8px;border-radius:5px;border:1px solid var(--bd);background:#fff;font-size:11px;cursor:pointer;font-weight:600}
+#pop-add{background:var(--bl)!important;color:#fff!important;border-color:var(--bl)!important}
+/* toast */
+#toast{position:fixed;bottom:16px;left:50%;transform:translateX(-50%);background:var(--dk);color:#fff;padding:8px 16px;border-radius:8px;font-size:13px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap;max-width:90vw;text-align:center}
+/* quiz overlay */
+#qov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:12px}
+#qov.on{display:flex}
+.qp{background:#fff;border-radius:16px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;padding:18px}
+.qmr{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:14px}
+.qmc{border:2px solid var(--bd);border-radius:9px;padding:10px 6px;text-align:center;cursor:pointer;-webkit-tap-highlight-color:transparent;background:#fff}
+.qmc.on{border-color:var(--bl);background:var(--lt)}
+.qmi{font-size:20px;margin-bottom:3px}.qmt{font-size:11px;font-weight:700;color:var(--dk)}
+.pbw{background:var(--bd);border-radius:99px;height:6px;margin-bottom:12px;overflow:hidden}
+.pb{background:var(--bl);height:100%;border-radius:99px;transition:width .3s}
+.qct{font-size:11px;color:var(--gy);text-align:center;margin-bottom:10px}
+.qcd{background:#f8f8f8;border-radius:11px;padding:16px;text-align:center;margin-bottom:10px}
+.qlb{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.07em;color:var(--bl);margin-bottom:6px}
+.qww{font-size:22px;font-weight:800;color:var(--dk);margin-bottom:3px}
+.qhh{font-size:12px;color:#a0a0a0}
+.tinp{width:100%;padding:11px;font-size:16px;border:2px solid var(--bd);border-radius:7px;text-align:center;outline:none;margin-top:11px;-webkit-appearance:none}
+.tinp:focus{border-color:var(--bl)}
+.tinp.ok{border-color:var(--ok);background:#dff6dd}
+.tinp.ng{border-color:#d13438;background:#fde7e9}
+.mg{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:11px}
+.mb{background:#fff;border:2px solid var(--bd);border-radius:7px;padding:9px;font-size:12px;cursor:pointer;line-height:1.4;text-align:center;-webkit-tap-highlight-color:transparent}
+.mb.ok{border-color:var(--ok)!important;background:#dff6dd!important;color:var(--ok)}
+.mb.ng{border-color:#d13438!important;background:#fde7e9!important;color:#d13438}
+.pzt{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;margin:10px 0}
+.tile{background:var(--bl);color:#fff;border:none;border-radius:6px;padding:8px 11px;font-size:14px;font-weight:700;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.tile.ud2{background:var(--bd);color:#c8c6c4;pointer-events:none}
+.slts{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;min-height:42px;padding:6px;background:#faf9f8;border:2px dashed #c8c6c4;border-radius:7px;margin:8px 0;align-items:center}
+.slt{min-width:32px;height:34px;background:#fff;border:2px solid var(--bd);border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:700;cursor:pointer;padding:0 8px}
+.slt.ok{border-color:var(--ok);background:#dff6dd;color:var(--ok)}
+.fb{font-size:13px;font-weight:700;text-align:center;padding:8px;border-radius:7px;margin:6px 0;display:none}
+.fb.ok{background:#dff6dd;color:var(--ok);display:block}
+.fb.ng{background:#fde7e9;color:#d13438;display:block}
+.qbr{display:flex;gap:6px;flex-wrap:wrap;justify-content:center;margin-top:10px}
+.qbr button{padding:8px 13px;border-radius:7px;font-size:12px;cursor:pointer;font-weight:600;border:none;-webkit-tap-highlight-color:transparent}
+.qbr .p{background:var(--bl);color:#fff}
+.qbr .s{background:#f0f0f0;color:var(--gy)}
+.rc2{text-align:center;padding:16px 8px}
+.sc{width:86px;height:86px;border-radius:50%;background:linear-gradient(135deg,var(--bl),#40a9ff);display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;margin:0 auto 12px}
+.scn{font-size:24px;font-weight:800}.scl{font-size:11px;opacity:.9}
+/* vocab overlay */
+#vov{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:500;align-items:center;justify-content:center;padding:12px}
+#vov.on{display:flex}
+.vp{background:#fff;border-radius:16px;width:100%;max-width:440px;max-height:90vh;overflow-y:auto;padding:16px}
+.vph{display:flex;justify-content:space-between;align-items:center;margin-bottom:11px}
+.vph h2{font-size:15px;font-weight:700;color:var(--dk)}
+.cls{background:none;border:none;font-size:20px;cursor:pointer;color:var(--gy);padding:2px 6px}
+.vt{width:100%;border-collapse:collapse;font-size:12px}
+.vt th{background:#f3f2f1;padding:6px 8px;text-align:left;font-size:10px;font-weight:700;text-transform:uppercase;color:var(--gy);border-bottom:1px solid var(--bd)}
+.vt td{padding:7px 8px;border-bottom:1px solid #f3f2f1;vertical-align:middle}
+.vw2{font-weight:700;color:var(--dk)}.vm2{color:var(--bl);font-weight:600}
+.db{background:none;border:1px solid var(--bd);color:#a0a0a0;padding:3px 7px;border-radius:4px;cursor:pointer;font-size:11px}
+.db:hover{background:#fde7e9;border-color:#d13438;color:#d13438}
+.ve{text-align:center;padding:20px;color:var(--gy)}
+.af{background:#f0f7ff;border:1px solid #cce5ff;border-radius:8px;padding:10px;margin-bottom:10px;display:none}
+.af input{width:100%;padding:6px 8px;border:1.5px solid var(--bd);border-radius:6px;font-size:13px;outline:none;margin-bottom:6px}
+.af input:focus{border-color:var(--bl)}
+/* responsive */
+@media(max-width:580px){
+  .wrap{grid-template-columns:1fr}
+  .sb{display:none}
+  .main{padding:12px 10px}
+  .hero h1{font-size:17px}
+  .pg{grid-template-columns:repeat(2,1fr)}
+  .rg{grid-template-columns:1fr}
+  .mg{grid-template-columns:1fr}
+  .qmr{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header class="hd">
+  <div class="logo">
+    <svg viewBox="0 0 24 24"><rect x="1" y="1" width="10" height="10" fill="#f25022"/><rect x="13" y="1" width="10" height="10" fill="#7fba00"/><rect x="1" y="13" width="10" height="10" fill="#00a4ef"/><rect x="13" y="13" width="10" height="10" fill="#ffb900"/></svg>
+    M365 Learn
+  </div>
+  <nav class="hnav">
+    <a onclick="gu(0)" id="n0" class="on">Unit1</a>
+    <a onclick="gu(1)" id="n1">Unit2</a>
+    <a onclick="gu(2)" id="n2">Unit3</a>
+    <a onclick="gu(3)" id="n3">Unit4</a>
+    <a onclick="gu(4)" id="n4">Unit5</a>
+    <a onclick="OQ()">🧩퀴즈</a>
+    <a onclick="OV()">📚단어장</a>
+  </nav>
+  <button class="hbtn" onclick="OV()">📚<span id="vbadge">0</span></button>
+</header>
+
+<div class="wrap">
+<aside class="sb">
+  <div class="sb-t">LP1 · Intro M365 Copilot</div>
+  <a onclick="gu(0)" id="s0"><span class="dot on" id="d0">1</span>Introduction</a>
+  <a onclick="gu(1)" id="s1"><span class="dot" id="d1">2</span>What is M365 Copilot?</a>
+  <a onclick="gu(2)" id="s2"><span class="dot" id="d2">3</span>How Copilot Works</a>
+  <a onclick="gu(3)" id="s3"><span class="dot" id="d3">4</span>Core Components</a>
+  <a onclick="gu(4)" id="s4"><span class="dot" id="d4">5</span>Responsible AI</a>
+  <div style="margin-top:12px;padding-top:10px;border-top:1px solid var(--bd)">
+    <div class="sb-t">도구</div>
+    <a onclick="OQ()">🧩 단어 퀴즈</a>
+    <a onclick="OV()">📚 내 단어장</a>
+  </div>
+</aside>
+
+<main class="main">
+
+<!-- ===== UNIT 0 (Unit1) ===== -->
+<div id="u0">
+<div class="bc"><a onclick="gu(0)">홈</a> › Unit 1</div>
+<div class="hero"><div class="hico">📘</div><div><div class="htag">LP1 · Unit 1 of 5</div><h1>Introduction</h1><div class="hm"><span>⏱5분</span><span>🎯Beginner</span><span>📌Microsoft Learn</span></div></div></div>
+<div class="tb"><div class="th">💡 파란 <b>밑줄 단어를 터치</b>하면 뜻이 팝업됩니다! 📚단어장에 추가 후 퀴즈 도전!</div>
+  <button class="btn" onclick="SA(0)">🇰🇷 전체번역</button>
+  <button class="obtn" onclick="HA(0)">원문만</button>
+</div>
+
+<div class="sec">
+  <div class="sh"><h2>Overview</h2><button class="stb" onclick="ST('t00')">🇰🇷번역</button></div>
+  <div class="ct">
+    <p>Microsoft 365 Copilot is an AI-powered <span class="w" onclick="WP('productivity','생산성',event)">productivity</span> tool that <span class="w" onclick="WP('integrates','통합되다',event)">integrates</span> with Microsoft Graph and Microsoft 365 Apps to provide real-time intelligent assistance. This module examines the key tasks that <span class="w" onclick="WP('administrators','관리자',event)">administrators</span> must complete as they prepare for Microsoft 365 Copilot.</p>
+    <p>These tasks include implementing SharePoint Advanced Management tools, configuring the Microsoft 365 security and <span class="w" onclick="WP('compliance','규정 준수',event)">compliance</span> controls to protect your data, assigning Copilot <span class="w" onclick="WP('licenses','라이선스',event)">licenses</span>, and using Copilot agents to extend Microsoft 365 Copilot. You also explore how to drive Copilot <span class="w" onclick="WP('adoption','채택',event)">adoption</span> throughout your organization.</p>
+  </div>
+  <div class="tr" id="t00"><p>Microsoft 365 Copilot은 Microsoft Graph 및 Microsoft 365 앱과 <b>통합(integrates)</b>되어 실시간 지능형 지원을 제공하는 AI 기반 <b>생산성(productivity)</b> 도구입니다.</p><p>주요 작업: SharePoint 고급 관리 도구 구현, 보안 및 <b>컴플라이언스(compliance)</b> 제어 구성, Copilot <b>라이선스(licenses)</b> 할당, 조직 전체 Copilot <b>채택(adoption)</b> 추진.</p></div>
+</div>
+
+<div class="sec">
+  <div class="sh"><h3>📌 Scenario – Contoso</h3><button class="stb" onclick="ST('t01')">🇰🇷번역</button></div>
+  <div class="ib"><div class="ibt">시나리오</div>
+  <div class="ct"><p>Contoso is excited to roll out Microsoft 365 Copilot across the organization. As a first step, it plans to ensure that it meets all <span class="w" onclick="WP('prerequisites','필수 조건',event)">prerequisites</span>. Contoso sees Microsoft 365 Copilot as an optimal solution that can <span class="w" onclick="WP('augment','증대시키다',event)">augment</span> human capabilities with AI, leading to greater efficiency, <span class="w" onclick="WP('collaboration','협업',event)">collaboration</span>, and <span class="w" onclick="WP('insights','인사이트/통찰',event)">insights</span>.</p></div></div>
+  <div class="tr" id="t01"><p>Contoso는 조직 전체에 Copilot을 도입(<b>roll out</b>)합니다. 모든 <b>필수 조건(prerequisites)</b>을 충족하고, AI로 인간 역량을 <b>강화(augment)</b>하여 효율성·<b>협업(collaboration)</b>·<b>인사이트(insights)</b>를 높일 계획입니다.</p></div>
+</div>
+
+<div class="sec">
+  <div class="sh"><h3>📋 Learning Objectives</h3><button class="stb" onclick="ST('t02')">🇰🇷번역</button></div>
+  <div class="ct">
+    <p>Microsoft 365 Copilot transforms work in three meaningful ways:</p>
+    <ul>
+      <li><strong>Unleash creativity.</strong> Copilot helps you create content faster and more efficiently.</li>
+      <li><strong>Unlock productivity.</strong> Copilot helps you focus on what matters most.</li>
+      <li><strong>Improve skills.</strong> Copilot makes you better at what you're good at.</li>
+    </ul>
+    <p>By the end, you should be able to:</p>
+    <ul>
+      <li>Describe the purpose and <span class="w" onclick="WP('functionalities','기능들',event)">functionalities</span> of Microsoft 365 Copilot.</li>
+      <li>Outline the working principles behind Microsoft 365 Copilot.</li>
+      <li>Identify the core components <span class="w" onclick="WP('integral','필수적인',event)">integral</span> to Microsoft 365 Copilot.</li>
+      <li><span class="w" onclick="WP('Articulate','명확히 표현하다',event)">Articulate</span> Microsoft's dedication to responsible AI practices.</li>
+    </ul>
+  </div>
+  <div class="tr" id="t02"><p><b>3가지 변화:</b> ①창의성 발휘 ②생산성 향상 ③기술 향상</p><p><b>학습 목표:</b> Copilot의 목적과 <b>기능(functionalities)</b> 설명 / 작동 원리 개요 설명 / 핵심 구성 요소(<b>integral</b>) 파악 / 책임감 있는 AI에 대한 헌신을 <b>명확히 표현(Articulate)</b></p></div>
+</div>
+<div style="text-align:right"><button class="btn" onclick="gu(1)">다음: Unit 2 →</button></div>
+</div><!-- /u0 -->
+
+<!-- ===== UNIT 1 (Unit2) ===== -->
+<div id="u1" style="display:none">
+<div class="ud"></div>
+<div class="bc"><a onclick="gu(0)">홈</a> › Unit 2</div>
+<div class="hero"><div class="hico">❓</div><div><div class="htag">LP1 · Unit 2 of 5</div><h1>What is Microsoft 365 Copilot?</h1><div class="hm"><span>⏱8분</span><span>🎯Beginner</span><span>📌Microsoft Learn</span></div></div></div>
+<div class="tb"><div class="th">💡 파란 <b>밑줄 단어를 터치</b>하면 뜻이 팝업됩니다!</div>
+  <button class="btn" onclick="SA(1)">🇰🇷 전체번역</button>
+  <button class="obtn" onclick="HA(1)">원문만</button>
+</div>
+
+<div class="sec">
+  <div class="sh"><h2>A New Paradigm in Work</h2><button class="stb" onclick="ST('t10')">🇰🇷번역</button></div>
+  <div class="ct">
+    <p>Microsoft 365 Copilot represents a new <span class="w" onclick="WP('paradigm','패러다임',event)">paradigm</span> in work, where employees <span class="w" onclick="WP('collaborate','협업하다',event)">collaborate</span> with AI for increased <span class="w" onclick="WP('productivity','생산성',event)">productivity</span>. Powered by Large Language Models (LLMs) and utilizing your business data from Microsoft Graph, Copilot integrates <span class="w" onclick="WP('seamlessly','원활하게',event)">seamlessly</span> with Teams, Word, Outlook, PowerPoint, Excel, and more.</p>
+    <p>Examples in action:</p>
+    <ul>
+      <li><strong>Outlook:</strong> Summarize the content of a large email thread.</li>
+      <li><strong>PowerPoint:</strong> Create a presentation based on a report.</li>
+      <li><strong>Word:</strong> Rewrite a paragraph in a different tone or style.</li>
+      <li><strong>Teams:</strong> Summarize meetings and chat threads.</li>
+    </ul>
+  </div>
+  <div class="tr" id="t10"><p>Copilot은 직원들이 AI와 <b>협업(collaborate)</b>하여 <b>생산성(productivity)</b>을 높이는 새로운 <b>패러다임(paradigm)</b>입니다. Microsoft Graph 비즈니스 데이터를 활용해 Microsoft 365 앱 전반에 <b>원활하게(seamlessly)</b> 통합됩니다.</p><ul><li>Outlook: 긴 이메일 스레드 요약</li><li>PowerPoint: 보고서 기반 프레젠테이션 생성</li><li>Word: 문단을 다른 어조로 재작성</li><li>Teams: 회의 및 채팅 스레드 요약</li></ul></div>
+</div>
+
+<div class="sec">
+  <div class="sh"><h3>The M365 Copilot System</h3><button class="stb" onclick="ST('t11')">🇰🇷번역</button></div>
+  <div class="ct"><p>Microsoft 365 Copilot is more than ChatGPT embedded in Microsoft 365. It is a <span class="w" onclick="WP('sophisticated','정교한',event)">sophisticated</span> <span class="w" onclick="WP('orchestration','오케스트레이션',event)">orchestration</span> engine. It melds the strengths of LLMs with Microsoft 365 apps and your <span class="w" onclick="WP('proprietary','독점적인',event)">proprietary</span> business data within Microsoft Graph.</p></div>
+  <div class="tr" id="t11"><p>Copilot은 단순히 ChatGPT를 내장한 것이 아닌, <b>정교한(sophisticated)</b> <b>오케스트레이션(orchestration)</b> 엔진입니다. LLM의 강점, Microsoft 365 앱, 그리고 <b>독점적인(proprietary)</b> 비즈니스 데이터를 융합합니다.</p></div>
+</div>
+
+<div class="sec">
+  <div class="sh"><h3>🔒 Trusted Data Security</h3><button class="stb" onclick="ST('t12')">🇰🇷번역</button></div>
+  <div class="ib"><div class="ibt">🔒 Security</div>
+  <div class="ct"><p>Copilot maintains a firm commitment to security, <span class="w" onclick="WP('compliance','규정 준수',event)">compliance</span>, and privacy. It delivers precise, <span class="w" onclick="WP('pertinent','적절한',event)">pertinent</span>, and <span class="w" onclick="WP('contextually','문맥에 맞게',event)">contextually</span> aware responses. Since Copilot is integrated into Microsoft 365, it automatically aligns with your company's security, compliance, and privacy policies.</p></div></div>
+  <div class="tr" id="t12"><p>Copilot은 보안, <b>규정 준수(compliance)</b>, 개인정보 보호에 확고한 의지를 가집니다. <b>적절한(pertinent)</b>, <b>문맥에 맞는(contextually)</b> 응답을 제공하며 Microsoft 365 정책과 자동으로 맞춰집니다.</p></div>
+</div>
+
+<div class="sec">
+  <div class="sh"><h3>✅ Prerequisites</h3><button class="stb" onclick="ST('t13')">🇰🇷번역</button></div>
+  <div class="ct"><p>Before you can access Microsoft 365 Copilot, you must meet these <span class="w" onclick="WP('requirements','요구 사항',event)">requirements</span>:</p></div>
+  <div class="rg">
+    <div class="rc"><div class="rt">🔑 Microsoft Entra ID</div><p>Users must have Entra ID accounts. Add or sync users via the onboarding wizard.</p></div>
+    <div class="rc"><div class="rt">📄 Copilot Licensing</div><p>Qualifying Microsoft 365 plan needed. Copilot Chat is free; full Copilot requires add-on license.</p></div>
+    <div class="rc"><div class="rt">💻 Microsoft 365 Apps</div><p>Word, Excel, PowerPoint, Outlook, Teams required. Web versions work when license is assigned.</p></div>
+    <div class="rc"><div class="rt">☁️ OneDrive Account</div><p>Required for file restore and OneDrive management features.</p></div>
+    <div class="rc"><div class="rt">📧 New Outlook</div><p>New Outlook for Windows/Mac/Web/Mobile recommended for seamless integration.</p></div>
+    <div class="rc"><div class="rt">💬 Microsoft Teams</div><p>Available on all platforms. Transcription must be enabled for meeting references.</p></div>
+    <div class="rc"><div class="rt">🔄 Microsoft Loop</div><p>Must be enabled for your tenant via Microsoft 365 admin center.</p></div>
+    <div class="rc"><div class="rt">🖊️ Whiteboard</div><p>Must be enabled for your tenant to use Copilot with Whiteboard.</p></div>
+  </div>
+  <div class="tr" id="t13"><ul><li>🔑 <b>Microsoft Entra ID</b>: 사용자 계정 필수</li><li>📄 <b>라이선스</b>: Copilot Chat 무료 / 전체 Copilot 추가 라이선스 필요</li><li>💻 <b>Microsoft 365 앱</b>: Word/Excel/PowerPoint/Outlook/Teams 필요</li><li>☁️ <b>OneDrive</b>: 일부 기능에 필수</li><li>📧 <b>새 Outlook</b> 권장 / 💬 <b>Teams</b>: 전사(transcription) 활성화 필요</li><li>🔄 <b>Loop</b> / 🖊️ <b>Whiteboard</b>: 테넌트에서 활성화 필요</li></ul></div>
+</div>
+<div class="pnav"><button class="obtn" onclick="gu(0)">← Unit 1</button><button class="btn" onclick="gu(2)">Unit 3 →</button></div>
+</div><!-- /u1 -->
+
+<!-- ===== UNIT 2 (Unit3) ===== -->
+<div id="u2" style="display:none">
+<div class="ud"></div>
+<div class="bc"><a onclick="gu(0)">홈</a> › Unit 3</div>
+<div class="hero"><div class="hico">⚙️</div><div><div class="htag">LP1 · Unit 3 of 5</div><h1>Explore How Microsoft 365 Copilot Works</h1><div class="hm"><span>⏱7분</span><span>🎯Beginner</span><span>📌Microsoft Learn</span></div></div></div>
+<div class="tb"><div class="th">💡 파란 <b>밑줄 단어를 터치</b>하면 뜻이 팝업됩니다!</div>
+  <button class="btn" onclick="SA(2)">🇰🇷 전체번역</button>
+  <button class="obtn" onclick="HA(2)">원문만</button>
+</div>
+
+<div class="sec">
+  <div class="sh"><h2>Understanding Context</h2><button class="stb" onclick="ST('t20')">🇰🇷번역</button></div>
+  <div class="ct">
+    <p>At its core, Microsoft 365 Copilot is an intelligent partner that accompanies you throughout your day-to-day Microsoft 365 interactions. Copilot's goal is to save you time by generating new content, offering relevant suggestions, and making you more productive.</p>
+    <p>Copilot's effectiveness stems from understanding you:</p>
+    <ul>
+      <li><strong>Analyzing content.</strong> Copilot scrutinizes subject matter, tone, structure, and <span class="w" onclick="WP('semantics','의미론',event)">semantics</span> to determine your intent.</li>
+      <li><strong>Getting context from your work data.</strong> Your communications and activity history help Copilot get real-time context as it responds to your <span class="w" onclick="WP('prompts','프롬프트',event)">prompts</span>.</li>
+    </ul>
+  </div>
+  <div class="tr" id="t20"><p>Copilot은 일상적인 Microsoft 365 사용 전반에 동반하는 지능형 파트너입니다. 이해 방법:</p><ul><li><b>콘텐츠 분석:</b> 주제·어조·구조·<b>의미론(semantics)</b>을 면밀히 검토</li><li><b>업무 데이터 컨텍스트:</b> 커뮤니케이션·활동 이력을 실시간으로 활용해 <b>프롬프트(prompts)</b>에 응답</li></ul></div>
+</div>
+
+<div class="sec">
+  <div class="sh"><h3>What Copilot Can Do</h3><button class="stb" onclick="ST('t21')">🇰🇷번역</button></div>
+  <div class="ct">
+    <ul>
+      <li><strong>Enhanced meeting engagement.</strong> Stay more engaged and get quick catch-ups for missed meetings.</li>
+      <li><strong>Efficient email management.</strong> Summarize lengthy email threads and draft responses.</li>
+      <li><strong>Writing assistance.</strong> Draft, edit, summarize, and create content alongside you.</li>
+      <li><strong>Presentation development.</strong> Start a new presentation using natural language commands.</li>
+      <li><strong>Data analysis and <span class="w" onclick="WP('visualization','시각화',event)">visualization</span>.</strong> Identify trends, create visualizations, provide recommendations.</li>
+      <li><strong>Security and <span class="w" onclick="WP('compliance','규정 준수',event)">compliance</span>.</strong> Data protected with comprehensive enterprise controls.</li>
+    </ul>
+  </div>
+  <div class="tr" id="t21"><ul><li>회의 참여 향상 / 효율적인 이메일 관리 / 글쓰기 지원</li><li>프레젠테이션 개발 / 데이터 분석 및 <b>시각화(visualization)</b></li><li>보안 및 <b>규정 준수(compliance)</b></li></ul></div>
+</div>
+
+<div class="sec">
+  <div class="sh"><h3>⚙️ Step-by-Step Architecture</h3><button class="stb" onclick="ST('t22')">🇰🇷번역</button></div>
+  <div class="ct"><p>Copilot uses your organization's data — calendar events, emails, chats, documents, meetings from Microsoft Graph. Data remains secure within the Microsoft 365 service boundary.</p></div>
+  <div class="steps">
+    <div class="step"><div class="sn">1</div><div class="sb2"><strong>User Prompt.</strong> Copilot receives an input prompt from a user in an app, such as Word or PowerPoint.</div></div>
+    <div class="step"><div class="sn">2</div><div class="sb2"><strong><span class="w" onclick="WP('Grounding','그라운딩(맥락 연결)',event)">Grounding</span>.</strong> Copilot preprocesses the input to improve specificity. Only accesses data the individual user is authorized to access, based on Microsoft 365 role-based access controls.</div></div>
+    <div class="step"><div class="sn">3</div><div class="sb2"><strong>LLM Processing.</strong> Copilot post-processes the LLM response — including responsible AI checks, security, <span class="w" onclick="WP('compliance','규정 준수',event)">compliance</span>, and privacy reviews.</div></div>
+    <div class="step"><div class="sn">4</div><div class="sb2"><strong>Response Returned.</strong> Copilot returns the response to the app, where the user can review and assess it.</div></div>
+  </div>
+  <div class="tr" id="t22"><ol style="margin-left:16px"><li><b>사용자 프롬프트:</b> 앱에서 입력 받음</li><li><b>그라운딩(Grounding):</b> 프롬프트 구체성 향상. 사용자 권한 범위 내 데이터만 접근.</li><li><b>LLM 처리 및 후처리:</b> 책임감 있는 AI 검사·보안·컴플라이언스·개인정보 검토 포함</li><li><b>응답 반환:</b> 앱으로 반환 후 사용자 검토</li></ol></div>
+</div>
+<div class="pnav"><button class="obtn" onclick="gu(1)">← Unit 2</button><button class="btn" onclick="gu(3)">Unit 4 →</button></div>
+</div><!-- /u2 -->
+
+<!-- ===== UNIT 3 (Unit4) ===== -->
+<div id="u3" style="display:none">
+<div class="ud"></div>
+<div class="bc"><a onclick="gu(0)">홈</a> › Unit 4</div>
+<div class="hero"><div class="hico">🧩</div><div><div class="htag">LP1 · Unit 4 of 5</div><h1>Core Components of Microsoft 365 Copilot</h1><div class="hm"><span>⏱4분</span><span>🎯Beginner</span><span>📌Microsoft Learn</span></div></div></div>
+<div class="tb"><div class="th">💡 파란 <b>밑줄 단어를 터치</b>하면 뜻이 팝업됩니다!</div>
+  <button class="btn" onclick="SA(3)">🇰🇷 전체번역</button>
+  <button class="obtn" onclick="HA(3)">원문만</button>
+</div>
+
+<div class="sec">
+  <div class="sh"><h2>Overview</h2><button class="stb" onclick="ST('t30')">🇰🇷번역</button></div>
+  <div class="ct"><p>Microsoft 365 Copilot isn't a single app; it's intelligent capabilities built into Microsoft 365 applications. Powered by Microsoft Graph, an <span class="w" onclick="WP('orchestration','오케스트레이션',event)">orchestration</span> service, LLMs, and Work IQ — all working together to deliver context-aware assistance.</p></div>
+  <div class="tr" id="t30"><p>Copilot은 단독 앱이 아닌, Microsoft 365 앱에 내장된 지능형 기능들의 집합입니다. Microsoft Graph, <b>오케스트레이션(orchestration)</b> 서비스, LLM, Work IQ가 함께 작동합니다.</p></div>
+</div>
+
+<div class="sec">
+  <div class="sh"><h3>Large Language Models (LLMs)</h3><button class="stb" onclick="ST('t31')">🇰🇷번역</button></div>
+  <div class="ct"><p>LLMs specialize in understanding and generating human-like text. They are a type of <span class="w" onclick="WP('generative','생성형',event)">generative</span> AI — instead of merely predicting or classifying, they can produce entirely new content. Microsoft's Azure OpenAI Service privately hosts these models, ensuring privacy and data <span class="w" onclick="WP('integrity','무결성',event)">integrity</span>.</p></div>
+  <div class="tr" id="t31"><p>LLM은 인간과 유사한 텍스트를 이해하고 생성하는 AI 모델입니다. <b>생성형(generative)</b> AI의 일종으로 새로운 콘텐츠를 생성합니다. Microsoft의 Azure OpenAI Service가 비공개로 호스팅하여 데이터 <b>무결성(integrity)</b>을 보장합니다.</p></div>
+</div>
+
+<div class="sec">
+  <div class="sh"><h3>Natural Language Processing (NLP)</h3><button class="stb" onclick="ST('t32')">🇰🇷번역</button></div>
+  <div class="ct">
+    <p>Key NLP components in Copilot:</p>
+    <ul>
+      <li><strong><span class="w" onclick="WP('Tokenization','토큰화',event)">Tokenization</span>.</strong> Breaks down text into smaller chunks like words or phrases.</li>
+      <li><strong>Semantic Analysis.</strong> Helps Copilot understand the underlying meaning or context.</li>
+      <li><strong>Sentiment Analysis.</strong> Assesses the mood or emotion behind a text.</li>
+      <li><strong>Language Translation.</strong> Aids in multilingual tasks across different languages.</li>
+    </ul>
+  </div>
+  <div class="tr" id="t32"><ul><li><b>토큰화(Tokenization):</b> 텍스트를 단어·구 같은 작은 단위로 분해</li><li><b>의미 분석(Semantic Analysis):</b> 기본 의미와 맥락 파악</li><li><b>감정 분석(Sentiment Analysis):</b> 텍스트 뒤의 감정·기분 평가</li><li><b>언어 번역(Language Translation):</b> 다국어 지원</li></ul></div>
+</div>
+
+<div class="sec">
+  <div class="sh"><h3>Microsoft Graph + Work IQ</h3><button class="stb" onclick="ST('t33')">🇰🇷번역</button></div>
+  <div class="ct">
+    <p>Microsoft Graph is the backbone of Copilot's intelligence — a unified data layer connecting emails, files, meetings, chats across Microsoft 365 into a single, secure framework.</p>
+    <p><strong>Work IQ</strong> adds an extra layer of intelligence. Rather than treating files, emails, chats, meetings, and tasks as isolated data, Work IQ learns patterns, relationships, workflows, and preferences across everything you do.</p>
+    <div class="ib"><div class="ibt">⚠️ Important</div>Prompts, responses, and data accessed through Microsoft Graph are <strong>NOT</strong> used to train foundation LLMs.</div>
+  </div>
+  <div class="tr" id="t33"><p>Microsoft Graph는 Copilot 지능의 근간 — 이메일·파일·회의·채팅을 하나의 안전한 프레임워크로 연결합니다.</p><p><b>Work IQ</b>는 파일·이메일·채팅·회의·작업의 패턴, 관계, 워크플로, 선호도를 학습합니다.</p><p>⚠️ <b>중요:</b> Microsoft Graph를 통해 접근한 데이터는 LLM 훈련에 사용되지 않습니다.</p></div>
+</div>
+
+<div class="sec">
+  <div class="sh"><h3>Copilot Chat</h3><button class="stb" onclick="ST('t34')">🇰🇷번역</button></div>
+  <div class="ct">
+    <p><strong>Copilot Chat</strong> is the shared chat experience enabling cross-app intelligence. You can:</p>
+    <ul>
+      <li><strong>Catch up on things.</strong> Synthesize and summarize large amounts of data into simple summaries.</li>
+      <li><strong>Create content and brainstorm.</strong> Draft content from storyboards to executive summaries.</li>
+      <li><strong>Get quick answers.</strong> Your personal search engine — ask about files, messages, or forgotten information.</li>
+    </ul>
+  </div>
+  <div class="tr" id="t34"><ul><li><b>따라잡기:</b> 대량 데이터를 간단한 요약으로 합성</li><li><b>콘텐츠 생성 및 브레인스토밍:</b> 스토리보드부터 임원 요약본까지 초안 작성</li><li><b>빠른 답변:</b> 파일·메시지·잊어버린 정보에 대해 질문</li></ul></div>
+</div>
+<div class="pnav"><button class="obtn" onclick="gu(2)">← Unit 3</button><button class="btn" onclick="gu(4)">Unit 5 →</button></div>
+</div><!-- /u3 -->
+
+<!-- ===== UNIT 4 (Unit5) ===== -->
+<div id="u4" style="display:none">
+<div class="ud"></div>
+<div class="bc"><a onclick="gu(0)">홈</a> › Unit 5</div>
+<div class="hero"><div class="hico">🛡️</div><div><div class="htag">LP1 · Unit 5 of 5</div><h1>Responsible AI Practices</h1><div class="hm"><span>⏱3분</span><span>🎯Beginner</span><span>📌Microsoft Learn</span></div></div></div>
+<div class="tb"><div class="th">💡 파란 <b>밑줄 단어를 터치</b>하면 뜻이 팝업됩니다!</div>
+  <button class="btn" onclick="SA(4)">🇰🇷 전체번역</button>
+  <button class="obtn" onclick="HA(4)">원문만</button>
+</div>
+
+<div class="sec">
+  <div class="sh"><h2>Six Principles of Responsible AI</h2><button class="stb" onclick="ST('t40')">🇰🇷번역</button></div>
+  <div class="ct"><p>Microsoft integrates AI with a strong emphasis on ethics and responsibility. The guiding principles:</p></div>
+  <div class="pg">
+    <div class="pc"><div class="pi">⚖️</div><div class="pt">Fairness</div><div class="pd">Eliminate biases, equal treatment for all users.</div></div>
+    <div class="pc"><div class="pi">🛡️</div><div class="pt">Reliability &amp; Safety</div><div class="pd">Rigorous testing for consistent, safe performance.</div></div>
+    <div class="pc"><div class="pi">🔒</div><div class="pt">Privacy &amp; Security</div><div class="pd">Data protected in training and post-deployment.</div></div>
+    <div class="pc"><div class="pi">🌍</div><div class="pt">Inclusiveness</div><div class="pd">AI accessible and beneficial for everyone.</div></div>
+    <div class="pc"><div class="pi">🔍</div><div class="pt">Transparency</div><div class="pd">Keep users informed about how AI works.</div></div>
+    <div class="pc"><div class="pi">📋</div><div class="pt">Accountability</div><div class="pd">Ethical and legal standards at the forefront.</div></div>
+  </div>
+  <div class="tr" id="t40"><ul><li>⚖️ <b>공정성(Fairness):</b> 편향 제거, 동등 대우</li><li>🛡️ <b>신뢰성 및 안전(Reliability &amp; Safety):</b> 일관성 있고 안전한 성능</li><li>🔒 <b>개인정보 보호(Privacy &amp; Security):</b> 훈련·배포 후 데이터 보호</li><li>🌍 <b>포용성(Inclusiveness):</b> 모두가 접근 가능한 AI</li><li>🔍 <b>투명성(Transparency):</b> AI 작동 방식 공개</li><li>📋 <b>책임감(Accountability):</b> 윤리적·법적 기준 최우선</li></ul></div>
+</div>
+
+<div class="sec">
+  <div class="sh"><h3>Microsoft's Strategy</h3><button class="stb" onclick="ST('t41')">🇰🇷번역</button></div>
+  <div class="ct">
+    <p>Microsoft engineers build AI adhering to the <strong>Responsible AI Standard v2</strong>. Security experts protect <span class="w" onclick="WP('confidentiality','기밀성',event)">confidentiality</span>, <span class="w" onclick="WP('integrity','무결성',event)">integrity</span>, and <span class="w" onclick="WP('availability','가용성',event)">availability</span> of AI systems from malicious attacks. Microsoft harnesses:</p>
+    <ul>
+      <li>Ethical AI principles</li>
+      <li><span class="w" onclick="WP('Compliance','규정 준수',event)">Compliance</span> standards for responsible AI</li>
+      <li>Comprehensive AI research including privacy-centric machine learning</li>
+    </ul>
+    <p>An interdisciplinary team continually refines AI systems — enhancing training data, filtering harmful content, and addressing <span class="w" onclick="WP('biases','편향',event)">biases</span>.</p>
+  </div>
+  <div class="tr" id="t41"><p>Microsoft 엔지니어들은 <b>책임감 있는 AI 표준 v2</b>를 준수합니다. 보안 전문가들이 <b>기밀성(confidentiality)</b>·<b>무결성(integrity)</b>·<b>가용성(availability)</b>을 보호합니다.</p><p>학제간 팀이 훈련 데이터 강화, 유해 콘텐츠 필터링, <b>편향(biases)</b> 해결에 나섭니다.</p></div>
+</div>
+
+<div class="cta">
+  <div><h3>🎉 LP1 완료! 단어 퀴즈로 복습하세요</h3><p>타이핑·객관식·퍼즐 3가지 모드로 핵심 단어 테스트!</p></div>
+  <button class="cta2" onclick="OQ()">🧩 퀴즈 시작 →</button>
+</div>
+<div class="pnav"><button class="obtn" onclick="gu(3)">← Unit 4</button><button class="obtn" onclick="OQ()">🧩 퀴즈</button></div>
+</div><!-- /u4 -->
+
+</main>
+</div><!-- /wrap -->
+
+<!-- WORD POPUP -->
+<div id="pop">
+  <div id="pop-w"></div>
+  <div id="pop-m"></div>
+  <div id="pop-a">
+    <button id="pop-add" onclick="PA()">📚 단어장 추가</button>
+    <button onclick="CP()">✕ 닫기</button>
+  </div>
+</div>
+<div id="toast"></div>
+
+<!-- QUIZ OVERLAY -->
+<div id="qov">
+<div class="qp">
+  <div id="qs0">
+    <h2 style="font-size:15px;font-weight:700;color:var(--dk);margin-bottom:12px">🧩 퀴즈 모드 선택</h2>
+    <div class="qmr">
+      <div class="qmc on" onclick="SM('t',this)"><div class="qmi">✏️</div><div class="qmt">타이핑</div></div>
+      <div class="qmc" onclick="SM('m',this)"><div class="qmi">☑️</div><div class="qmt">객관식</div></div>
+      <div class="qmc" onclick="SM('p',this)"><div class="qmi">🔡</div><div class="qmt">퍼즐</div></div>
+    </div>
+    <p style="font-size:12px;color:var(--gy);margin-bottom:10px">단어장 + 기본 M365 단어로 출제됩니다</p>
+    <div style="display:flex;gap:8px"><button class="btn" style="flex:1" onclick="SQ()">🚀 퀴즈 시작</button><button class="obtn" onclick="CQ()">닫기</button></div>
+  </div>
+  <div id="qs1" style="display:none">
+    <div class="qct" id="qct"></div>
+    <div class="pbw"><div class="pb" id="qpb"></div></div>
+    <div class="qcd">
+      <div class="qlb" id="qlb"></div>
+      <div class="qww" id="qww"></div>
+      <div class="qhh" id="qhh"></div>
+      <input type="text" class="tinp" id="ti" placeholder="영어 단어 입력..." onkeydown="if(event.key==='Enter')CT()" style="display:none">
+      <div class="mg" id="mg" style="display:none"></div>
+      <div id="pza" style="display:none">
+        <div class="slts" id="pzs"></div>
+        <div class="pzt" id="pzt"></div>
+      </div>
+    </div>
+    <div class="fb" id="fb"></div>
+    <div class="qbr" id="br1"><button class="p" onclick="CT()">✅ 확인</button><button class="s" onclick="SK()">⏭ 건너뛰기</button><button class="s" onclick="CQ()">✕ 종료</button></div>
+    <div class="qbr" id="br2" style="display:none"><button class="s" onclick="PZ()">↩ 다시</button><button class="s" onclick="SK()">⏭ 건너뛰기</button><button class="s" onclick="CQ()">✕ 종료</button></div>
+  </div>
+  <div id="qs2" style="display:none">
+    <div class="rc2">
+      <div class="sc"><div class="scn" id="rsc"></div><div class="scl">점수</div></div>
+      <h2 id="rmsg" style="color:var(--dk);margin-bottom:6px"></h2>
+      <p id="rdet" style="color:var(--gy);font-size:12px;margin-bottom:12px"></p>
+      <div class="qbr"><button class="p" onclick="RQ()">🔄 다시 도전</button><button class="s" onclick="CQ()">닫기</button></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- VOCAB OVERLAY -->
+<div id="vov">
+<div class="vp">
+  <div class="vph"><h2>📚 내 단어장</h2><button class="cls" onclick="CV()">✕</button></div>
+  <div style="display:flex;gap:6px;margin-bottom:10px;flex-wrap:wrap">
+    <input type="text" id="vs" placeholder="🔍 검색..." oninput="RV()" style="flex:1;padding:7px 9px;border:1.5px solid var(--bd);border-radius:6px;font-size:13px;outline:none;min-width:80px">
+    <button class="btn" onclick="document.getElementById('vaf').style.display='block'">✏️ 추가</button>
+    <button class="obtn" onclick="OQ();CV()">🧩 퀴즈</button>
+  </div>
+  <div class="af" id="vaf">
+    <input type="text" id="fw" placeholder="영어 단어">
+    <input type="text" id="fm" placeholder="한국어 뜻">
+    <div style="display:flex;gap:6px"><button class="btn" onclick="AM()">추가</button><button class="obtn" onclick="document.getElementById('vaf').style.display='none'">취소</button></div>
+  </div>
+  <div id="vb"></div>
+</div>
+</div>
+
+<script>
+// ===== 핵심 데이터 =====
+// 각 유닛의 tbox ID 목록 (번호별로 관리)
+var TRS = [
+  ['t00','t01','t02'],          // unit 0
+  ['t10','t11','t12','t13'],    // unit 1
+  ['t20','t21','t22'],          // unit 2
+  ['t30','t31','t32','t33','t34'], // unit 3
+  ['t40','t41']                 // unit 4
+];
+
+// ===== 단어장 =====
+var VK = 'm365lp1v2';
+function GV() { try { return JSON.parse(localStorage.getItem(VK)||'[]'); } catch(e) { return []; } }
+function SV(l) { localStorage.setItem(VK, JSON.stringify(l)); }
+function AW(w, m) {
+  var l = GV();
+  for (var i=0; i<l.length; i++) { if (l[i].word.toLowerCase()===w.toLowerCase()) { TT('"'+w+'" 이미 있습니다'); return; } }
+  l.push({word:w, meaning:m, at:Date.now()});
+  SV(l); TT('"'+w+'" 📚 단어장 추가!'); UB();
+}
+function DW(w) { SV(GV().filter(function(x){return x.word!==w;})); UB(); RV(); }
+function UB() {
+  var n = GV().length, b = document.getElementById('vbadge');
+  b.textContent = n; b.style.display = n > 0 ? 'inline-flex' : 'none';
+}
+
+// ===== Toast =====
+function TT(msg) {
+  var t = document.getElementById('toast');
+  t.textContent = msg; t.style.opacity = 1;
+  clearTimeout(t._x); t._x = setTimeout(function(){ t.style.opacity = 0; }, 2500);
+}
+
+// ===== 단어 팝업 =====
+var _w='', _m='';
+function WP(word, meaning, ev) {
+  ev.stopPropagation();
+  _w = word; _m = meaning;
+  var p = document.getElementById('pop');
+  document.getElementById('pop-w').textContent = word;
+  var mm = document.getElementById('pop-m');
+  mm.textContent = meaning || '사전에 없는 단어입니다';
+  mm.style.color = meaning ? '#0078d4' : '#888';
+  mm.style.fontWeight = meaning ? '700' : '400';
+  document.getElementById('pop-add').style.display = meaning ? 'block' : 'none';
+  p.style.display = 'block';
+  var x = ev.clientX, y = ev.clientY;
+  var lx = x+12, ly = y+12;
+  if (lx+250 > window.innerWidth) lx = x-262;
+  if (ly+110 > window.innerHeight) ly = y-122;
+  p.style.left = Math.max(4,lx)+'px';
+  p.style.top = Math.max(4,ly)+'px';
+}
+function CP() { document.getElementById('pop').style.display='none'; }
+function PA() { if(_w&&_m) AW(_w,_m); CP(); }
+document.addEventListener('click', function(e){
+  var p = document.getElementById('pop');
+  if (p && p.style.display==='block' && !p.contains(e.target)) CP();
+});
+
+// ===== 번역 토글 (섹션별) =====
+function ST(id) {
+  var el = document.getElementById(id);
+  if (!el) return;
+  el.classList.toggle('on');
+}
+
+// ===== 전체 번역 / 전체 원문 =====
+function SA(uIdx) {
+  var ids = TRS[uIdx];
+  for (var i=0; i<ids.length; i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.classList.add('on');
+  }
+}
+function HA(uIdx) {
+  var ids = TRS[uIdx];
+  for (var i=0; i<ids.length; i++) {
+    var el = document.getElementById(ids[i]);
+    if (el) el.classList.remove('on');
+  }
+}
+
+// ===== 유닛 이동 =====
+var CU = 0;
+function gu(idx) {
+  for (var i=0; i<5; i++) {
+    var el = document.getElementById('u'+i);
+    if (el) el.style.display = i===idx ? '' : 'none';
+    var si = document.getElementById('s'+i);
+    var ni = document.getElementById('n'+i);
+    var di = document.getElementById('d'+i);
+    if (si) { si.classList.toggle('on', i===idx); }
+    if (ni) { ni.classList.toggle('on', i===idx); }
+    if (di) {
+      di.className = 'dot' + (i===idx?' on':(i<idx?' dn':''));
+      di.textContent = i===idx ? '●' : (i<idx ? '✓' : i+1);
+    }
+  }
+  CU = idx;
+  window.scrollTo(0,0);
+}
+
+// ===== 퀴즈 =====
+var BI = [
+  {word:'productivity',meaning:'생산성'},{word:'collaboration',meaning:'협업'},
+  {word:'compliance',meaning:'규정 준수'},{word:'orchestration',meaning:'오케스트레이션'},
+  {word:'paradigm',meaning:'패러다임'},{word:'prerequisites',meaning:'필수 조건'},
+  {word:'adoption',meaning:'채택'},{word:'seamlessly',meaning:'원활하게'},
+  {word:'sophisticated',meaning:'정교한'},{word:'grounding',meaning:'그라운딩'},
+  {word:'tokenization',meaning:'토큰화'},{word:'transparency',meaning:'투명성'},
+  {word:'accountability',meaning:'책임감'},{word:'integrity',meaning:'무결성'},
+  {word:'generative',meaning:'생성형'},{word:'deployment',meaning:'배포'},
+  {word:'authentication',meaning:'인증'},{word:'governance',meaning:'거버넌스'},
+  {word:'integration',meaning:'통합'},{word:'architecture',meaning:'아키텍처'},
+  {word:'pertinent',meaning:'적절한'},{word:'proprietary',meaning:'독점적인'},
+  {word:'functionalities',meaning:'기능들'},{word:'visualization',meaning:'시각화'},
+  {word:'confidentiality',meaning:'기밀성'}
+];
+
+var QM='t', QL=[], QI=0, QS=0, QT=0, PW='', PL=[], PA2=[];
+
+function BL() {
+  var v = GV().map(function(x){ return {word:x.word, meaning:x.meaning}; });
+  var all = v.slice();
+  for (var i=0; i<BI.length; i++) {
+    var found = false;
+    for (var j=0; j<all.length; j++) { if (all[j].word.toLowerCase()===BI[i].word.toLowerCase()) { found=true; break; } }
+    if (!found) all.push(BI[i]);
+  }
+  return all.sort(function(){ return Math.random()-.5; }).slice(0,15);
+}
+
+function OQ() { document.getElementById('qov').classList.add('on'); }
+function CQ() { document.getElementById('qov').classList.remove('on'); }
+function SM(m, el) {
+  QM = m;
+  var cs = document.querySelectorAll('.qmc');
+  for (var i=0; i<cs.length; i++) cs[i].classList.remove('on');
+  el.classList.add('on');
+}
+function SQ() {
+  QL=BL(); QI=0; QS=0; QT=QL.length;
+  document.getElementById('qs0').style.display='none';
+  document.getElementById('qs2').style.display='none';
+  document.getElementById('qs1').style.display='';
+  SHQ();
+}
+function RQ() {
+  document.getElementById('qs0').style.display='';
+  document.getElementById('qs1').style.display='none';
+  document.getElementById('qs2').style.display='none';
+}
+function UP() {
+  document.getElementById('qpb').style.width = Math.round(QI/QT*100)+'%';
+  document.getElementById('qct').textContent = '문제 '+(QI+1)+' / '+QT+'  ·  점수: '+QS;
+}
+function SHQ() {
+  if (QI>=QT) { SHR(); return; }
+  UP();
+  var q = QL[QI];
+  var fb = document.getElementById('fb'); fb.className='fb';
+  var ti = document.getElementById('ti');
+  var mg = document.getElementById('mg');
+  var pza = document.getElementById('pza');
+  var b1 = document.getElementById('br1');
+  var b2 = document.getElementById('br2');
+  ti.style.display='none'; mg.style.display='none'; pza.style.display='none';
+  b1.style.display='flex'; b2.style.display='none';
+
+  if (QM==='t') {
+    document.getElementById('qlb').textContent='✏️ 타이핑 — 한글 뜻 → 영어 입력';
+    document.getElementById('qww').textContent=q.meaning;
+    document.getElementById('qhh').textContent='첫 글자: "'+q.word[0].toUpperCase()+'" · '+q.word.length+'글자';
+    ti.style.display=''; ti.value=''; ti.className='tinp'; ti.disabled=false;
+    setTimeout(function(){ ti.focus(); },100);
+  } else if (QM==='m') {
+    document.getElementById('qlb').textContent='☑️ 객관식 — 영어 단어의 뜻 선택';
+    document.getElementById('qww').textContent=q.word;
+    document.getElementById('qhh').textContent='';
+    b1.style.display='none';
+    var ot = QL.filter(function(_,i){ return i!==QI; }).sort(function(){ return Math.random()-.5; }).slice(0,3);
+    var op = [q].concat(ot).sort(function(){ return Math.random()-.5; });
+    mg.style.display='grid';
+    var html='';
+    for (var i=0; i<op.size; i++) { }
+    mg.innerHTML='';
+    for (var i=0; i<op.length; i++) {
+      (function(opt){
+        var btn = document.createElement('button');
+        btn.className='mb';
+        btn.textContent=opt.meaning;
+        btn.onclick=function(){ CM(btn, opt.meaning, q.meaning); };
+        mg.appendChild(btn);
+      })(op[i]);
+    }
+  } else {
+    document.getElementById('qlb').textContent='🔡 퍼즐 — 철자를 클릭해 단어 완성';
+    document.getElementById('qww').textContent=q.meaning;
+    document.getElementById('qhh').textContent='';
+    b1.style.display='none'; b2.style.display='flex';
+    PW=q.word.toLowerCase();
+    PL=PW.split('').map(function(l,i){ return {l:l,i:i,used:false}; }).sort(function(){ return Math.random()-.5; });
+    PA2=[];
+    RPZ();
+    pza.style.display='';
+  }
+}
+function CT() {
+  if (QM!=='t') return;
+  var q=QL[QI], ti=document.getElementById('ti'), fb=document.getElementById('fb');
+  var ans=ti.value.trim().toLowerCase();
+  if (ans===q.word.toLowerCase()) {
+    ti.className='tinp ok'; fb.className='fb ok'; fb.textContent='✅ 정답! "'+q.word+'" = '+q.meaning; QS++;
+  } else {
+    ti.className='tinp ng'; fb.className='fb ng'; fb.textContent='❌ 오답! 정답: "'+q.word+'"';
+  }
+  ti.disabled=true; QI++;
+  setTimeout(SHQ, 1600);
+}
+function CM(btn, chosen, correct) {
+  var btns=document.querySelectorAll('.mb');
+  for (var i=0; i<btns.length; i++) btns[i].disabled=true;
+  var fb=document.getElementById('fb');
+  if (chosen===correct) {
+    btn.classList.add('ok'); fb.className='fb ok'; fb.textContent='✅ 정답!'; QS++;
+  } else {
+    btn.classList.add('ng'); fb.className='fb ng'; fb.textContent='❌ 오답! 정답: '+correct;
+    for (var i=0; i<btns.length; i++) { if (btns[i].textContent.trim()===correct) btns[i].classList.add('ok'); }
+  }
+  QI++; setTimeout(SHQ, 1600);
+}
+function RPZ() {
+  var pt=document.getElementById('pzt'), ps=document.getElementById('pzs');
+  pt.innerHTML='';
+  for (var i=0; i<PL.length; i++) {
+    (function(li,ii){
+      var btn=document.createElement('button');
+      btn.className='tile'+(li.used?' ud2':'');
+      btn.textContent=li.l.toUpperCase();
+      btn.onclick=function(){ PKT(ii); };
+      pt.appendChild(btn);
+    })(PL[i],i);
+  }
+  ps.innerHTML='';
+  if (PA2.length===0) {
+    ps.innerHTML='<span style="color:#c8c6c4;font-size:11px">글자를 클릭해 여기에 배치</span>';
+  } else {
+    for (var i=0; i<PA2.length; i++) {
+      (function(ai,si){
+        var d=document.createElement('div');
+        d.className='slt';
+        d.textContent=ai.l.toUpperCase();
+        d.onclick=function(){ RMS(si); };
+        ps.appendChild(d);
+      })(PA2[i],i);
+    }
+  }
+}
+function PKT(i) {
+  if (PL[i].used) return;
+  PL[i].used=true; PA2.push({l:PL[i].l,ti:i}); RPZ();
+  if (PA2.length===PW.length) setTimeout(CPZ,150);
+}
+function RMS(si) { PL[PA2[si].ti].used=false; PA2.splice(si,1); RPZ(); }
+function PZ() { for(var i=0;i<PL.length;i++) PL[i].used=false; PA2=[]; RPZ(); }
+function CPZ() {
+  var ans=''; for(var i=0;i<PA2.length;i++) ans+=PA2[i].l;
+  var fb=document.getElementById('fb');
+  if (ans===PW) {
+    fb.className='fb ok'; fb.textContent='✅ 정답! "'+PW+'" 완성!';
+    var slts=document.querySelectorAll('.slt');
+    for(var i=0;i<slts.length;i++) slts[i].classList.add('ok');
+    QS++; QI++; setTimeout(SHQ,1500);
+  } else {
+    fb.className='fb ng'; fb.textContent='❌ 틀렸어요! 다시 배치해보세요.';
+    setTimeout(function(){ fb.className='fb'; PZ(); },1200);
+  }
+}
+function SK() { QI++; SHQ(); }
+function SHR() {
+  document.getElementById('qs1').style.display='none';
+  document.getElementById('qs2').style.display='';
+  var pct=Math.round(QS/QT*100);
+  document.getElementById('rsc').textContent=pct+'%';
+  document.getElementById('rmsg').textContent=pct>=80?'🎉 훌륭합니다!':pct>=50?'👍 좋아요, 조금 더!':'💪 계속 연습!';
+  document.getElementById('rdet').textContent=QT+'문제 중 '+QS+'개 정답 ('+pct+'점)';
+}
+
+// ===== 단어장 오버레이 =====
+function OV() { document.getElementById('vov').classList.add('on'); RV(); }
+function CV() { document.getElementById('vov').classList.remove('on'); }
+function AM() {
+  var w=document.getElementById('fw').value.trim();
+  var m=document.getElementById('fm').value.trim();
+  if (!w||!m) { alert('단어와 뜻을 입력하세요'); return; }
+  AW(w,m);
+  document.getElementById('fw').value='';
+  document.getElementById('fm').value='';
+  document.getElementById('vaf').style.display='none';
+  RV();
+}
+function RV() {
+  var q=(document.getElementById('vs').value||'').toLowerCase();
+  var list=GV().filter(function(x){ return !q||x.word.toLowerCase().indexOf(q)>=0||x.meaning.indexOf(q)>=0; });
+  var b=document.getElementById('vb');
+  if (!list.length) {
+    b.innerHTML='<div class="ve"><div style="font-size:30px;margin-bottom:8px">'+(q?'🔍':'📭')+'</div><p style="font-size:13px">'+(q?'검색 결과 없음':'단어를 터치해 추가하세요!')+'</p></div>';
+    return;
+  }
+  var tbl=document.createElement('table');
+  tbl.className='vt';
+  tbl.innerHTML='<thead><tr><th>단어</th><th>뜻</th><th></th></tr></thead>';
+  var tb2=document.createElement('tbody');
+  for (var i=0; i<list.length; i++) {
+    (function(x){
+      var tr=document.createElement('tr');
+      var td1=document.createElement('td'); td1.className='vw2'; td1.textContent=x.word;
+      var td2=document.createElement('td'); td2.className='vm2'; td2.textContent=x.meaning;
+      var td3=document.createElement('td');
+      var db=document.createElement('button'); db.className='db'; db.textContent='삭제';
+      db.onclick=function(){ DW(x.word); };
+      td3.appendChild(db);
+      tr.appendChild(td1); tr.appendChild(td2); tr.appendChild(td3);
+      tb2.appendChild(tr);
+    })(list[i]);
+  }
+  tbl.appendChild(tb2);
+  b.innerHTML='';
+  b.appendChild(tbl);
+  var info=document.createElement('p');
+  info.style.cssText='font-size:11px;color:var(--gy);margin-top:6px;text-align:right';
+  info.textContent='총 '+list.length+'개';
+  b.appendChild(info);
+}
+
+// ===== 초기화 =====
+document.addEventListener('DOMContentLoaded', function(){ UB(); });
+</script>
+</body>
+</html>
